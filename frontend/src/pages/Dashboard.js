@@ -30,7 +30,7 @@ export default function Dashboard() {
   }, []);
 
 return (
-  <div className="dashboard">
+  <div className="dashboard" style={{ backgroundColor: 'green' }}>
     console.log("new deploy");
     <h1>Task Manager</h1>
 
