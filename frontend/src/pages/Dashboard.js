@@ -29,10 +29,9 @@ export default function Dashboard() {
     loadTasks();
   }, []);
 
-return (
-  <div className="dashboard" style={{ backgroundColor: 'green' }}>
-    console.log("new deploy");
-    <h1>Task Manager</h1>
+  return (
+    <div className="dashboard" style={{ backgroundColor: 'green' }}>
+      <h1>Task Manager</h1>
 
     <div className="top_bar">
       <div className="stats">
