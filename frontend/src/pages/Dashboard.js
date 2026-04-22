@@ -25,11 +25,6 @@ export default function Dashboard() {
     setTasks(data);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-  };
-
   useEffect(() => {
     loadTasks();
   }, []);

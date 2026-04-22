@@ -11,9 +11,9 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
+      <Toaster position="top-right" />
     </BrowserRouter>
   );
-  <Toaster position="top-right" />
 }
 
 export default App;
