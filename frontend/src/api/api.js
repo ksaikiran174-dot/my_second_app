@@ -51,7 +51,7 @@ export const updateTask = async (id, title, description, status) => {
 
   // Updated to fix URL issue - hardcoded URL to ensure /tasks/ is included
   await fetch(
-    `${BASE_URL}/${id}?title=${title}&description=${description}&status=${status}`,
+    `${BASE_URL}/tasks/${id}?title=${title}&description=${description}&status=${status}`,
     {
       method: "PUT",
       headers: {
