@@ -38,7 +38,7 @@ export const createTask = async (title, description) => {
 export const deleteTask = async (id) => {
   const token = localStorage.getItem("token");
 
-  await fetch(`https://my-second-app-ka05.onrender.com/tasks/${id}`, {
+  await fetch(`${BASE_URL}/tasks/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`
@@ -51,7 +51,7 @@ export const updateTask = async (id, title, description, status) => {
 
   // Updated to fix URL issue - hardcoded URL to ensure /tasks/ is included
   await fetch(
-    `https://my-second-app-ka05.onrender.com/tasks/${id}?title=${title}&description=${description}&status=${status}`,
+    `${BASE_URL}/${id}?title=${title}&description=${description}&status=${status}`,
     {
       method: "PUT",
       headers: {
