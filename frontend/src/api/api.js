@@ -49,6 +49,7 @@ export const deleteTask = async (id) => {
 export const updateTask = async (id, title, description, status) => {
   const token = localStorage.getItem("token");
 
+  // Updated to fix URL issue - hardcoded URL to ensure /tasks/ is included
   await fetch(
     `https://my-second-app-ka05.onrender.com/tasks/${id}?title=${title}&description=${description}&status=${status}`,
     {

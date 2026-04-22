@@ -31,6 +31,8 @@ export default function Dashboard() {
 
 return (
   <div className="dashboard">
+    // add this line anywhere
+    console.log("new deploy");
     <h1>Task Manager</h1>
 
     <div className="top_bar">
