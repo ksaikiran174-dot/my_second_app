@@ -50,7 +50,7 @@ export const updateTask = async (id, title, description, status) => {
   const token = localStorage.getItem("token");
 
   await fetch(
-    `${BASE_URL}/tasks/${id}?title=${title}&description=${description}&status=${status}`,
+    `https://my-second-app-ka05.onrender.com/tasks/${id}?title=${title}&description=${description}&status=${status}`,
     {
       method: "PUT",
       headers: {
