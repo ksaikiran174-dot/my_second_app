@@ -7,11 +7,28 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    if (!email.trim() || !password.trim()) {
+      setError("Email and password are required");
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleLogin = async () => {
-    if (!email || !password) {
-      toast.error("Please enter email and password");
+    setError("");
+
+    if (!validateForm()) {
+      toast.error("Please check the form");
       return;
     }
 
@@ -22,39 +39,62 @@ export default function Login() {
       if (data.access_token) {
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        toast.success("Login successful!");
+        toast.success("Login successful! 🎉");
         navigate("/dashboard");
-      } else {
-        toast.error(data.detail || "Login failed");
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again.");
+      const errorMessage = error.message || "Login failed. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-box">
-        <h2>Task Manager Login</h2>
+        <h2>📋 Task Manager Login</h2>
+
+        {error && <div className="auth-error">{error}</div>}
 
         <input
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError("");
+          }}
+          onKeyPress={handleKeyPress}
           type="email"
+          disabled={loading}
+          required
         />
 
         <input
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError("");
+          }}
+          onKeyPress={handleKeyPress}
           type="password"
+          disabled={loading}
+          required
         />
 
-        <button onClick={handleLogin} disabled={loading}>
+        <button 
+          onClick={handleLogin} 
+          disabled={loading || !email.trim() || !password.trim()}
+        >
           {loading ? "Logging in..." : "Login"}
         </button>
 

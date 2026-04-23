@@ -1,94 +1,191 @@
-const BASE_URL = "https://my-second-app-ka05.onrender.com";
+/**
+ * API Service Module
+ * Handles all API requests to the backend with error handling
+ */
 
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+
+/**
+ * Handle API responses and errors
+ */
+const handleResponse = async (response) => {
+  const data = await response.json();
+
+  if (!response.ok) {
+    const errorMessage = data.detail || data.error || "An error occurred";
+    throw new Error(errorMessage);
+  }
+
+  return data;
+};
+
+/**
+ * Sign up a new user
+ */
 export const signupUser = async (name, email, password) => {
-  const res = await fetch(`${BASE_URL}/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, email, password }),
-  });
-  return res.json();
+  try {
+    const response = await fetch(`${BASE_URL}/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Signup error:", error);
+    throw error;
+  }
 };
 
+/**
+ * Login user
+ */
 export const loginUser = async (email, password) => {
-  const res = await fetch(`${BASE_URL}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  return res.json();
+  try {
+    const response = await fetch(`${BASE_URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Login error:", error);
+    throw error;
+  }
 };
 
+/**
+ * Get current authenticated user
+ */
 export const getCurrentUser = async () => {
-  const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-  const res = await fetch(`${BASE_URL}/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
 
-  return res.json();
+    const response = await fetch(`${BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Get current user error:", error);
+    throw error;
+  }
 };
 
+/**
+ * Logout user
+ */
 export const logoutUser = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
 };
 
+/**
+ * Get all tasks
+ */
 export const getTasks = async () => {
-  const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-  const res = await fetch(`${BASE_URL}/tasks`, {
-    headers: {
-      Authorization: `Bearer ${token}`
+    if (!token) {
+      throw new Error("No authentication token found");
     }
-  });
 
-  return res.json();
+    const response = await fetch(`${BASE_URL}/tasks`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Get tasks error:", error);
+    throw error;
+  }
 };
 
+/**
+ * Create a new task
+ */
 export const createTask = async (title, description) => {
-  const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-  const res = await fetch(
-    `${BASE_URL}/tasks?title=${title}&description=${description}`,
-    {
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
+    const response = await fetch(`${BASE_URL}/tasks`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-  );
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title, description }),
+    });
 
-  return res.json();
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Create task error:", error);
+    throw error;
+  }
 };
 
-export const deleteTask = async (id) => {
-  const token = localStorage.getItem("token");
-
-  await fetch(`${BASE_URL}/tasks/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-};
-
+/**
+ * Update a task
+ */
 export const updateTask = async (id, title, description, status) => {
-  const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-  // Updated to fix URL issue - hardcoded URL to ensure /tasks/ is included
-  await fetch(
-    `${BASE_URL}/tasks/${id}?title=${title}&description=${description}&status=${status}`,
-    {
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
+    const response = await fetch(`${BASE_URL}/tasks/${id}`, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title, description, status }),
+    });
+
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Update task error:", error);
+    throw error;
+  }
+};
+
+/**
+ * Delete a task
+ */
+export const deleteTask = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("No authentication token found");
     }
-  );
+
+    const response = await fetch(`${BASE_URL}/tasks/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await handleResponse(response);
+  } catch (error) {
+    console.error("Delete task error:", error);
+    throw error;
+  }
 };
