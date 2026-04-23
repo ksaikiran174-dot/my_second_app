@@ -156,7 +156,4 @@ def get_current_user(payload: dict = Depends(verify_token), db: Session = Depend
             detail="Failed to fetch user"
         )
 
-        "id": user.id,
-        "name": user.name,
-        "email": user.email
-    }
+  

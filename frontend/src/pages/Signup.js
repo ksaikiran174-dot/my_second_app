@@ -17,27 +17,22 @@ export default function Signup() {
       setError("All fields are required");
       return false;
     }
-
     if (name.trim().length < 2) {
       setError("Name must be at least 2 characters");
       return false;
     }
-
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter a valid email address");
       return false;
     }
-
     if (password.length < 6) {
       setError("Password must be at least 6 characters");
       return false;
     }
-
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return false;
     }
-
     return true;
   };
 
@@ -59,20 +54,17 @@ export default function Signup() {
         toast.success("Account created successfully! 🎉");
         navigate("/dashboard");
       }
-    } catch (error) {
-      const errorMessage = error.message || "Signup failed. Please try again.";
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || err.message || "Signup failed.";
       setError(errorMessage);
       toast.error(errorMessage);
-      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSignup();
-    }
+    if (e.key === "Enter") handleSignup();
   };
 
   return (
@@ -85,66 +77,42 @@ export default function Signup() {
         <input
           placeholder="Full Name"
           value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-            setError("");
-          }}
+          onChange={(e) => setName(e.target.value)}
           type="text"
           disabled={loading}
-          required
         />
 
         <input
           placeholder="Email"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setError("");
-          }}
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
           disabled={loading}
-          required
         />
 
         <input
           placeholder="Password (minimum 6 characters)"
           value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            setError("");
-          }}
+          onChange={(e) => setPassword(e.target.value)}
           type="password"
           disabled={loading}
-          required
         />
 
         <input
           placeholder="Confirm Password"
           value={confirmPassword}
-          onChange={(e) => {
-            setConfirmPassword(e.target.value);
-            setError("");
-          }}
-          onKeyPress={handleKeyPress}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          onKeyDown={handleKeyPress}
           type="password"
           disabled={loading}
-          required
         />
 
         <button 
           onClick={handleSignup} 
-          disabled={loading || !name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()}
+          disabled={loading}
         >
           {loading ? "Creating Account..." : "Sign Up"}
         </button>
-
-        <p className="auth-link">
-          Already have an account? <Link to="/">Login</Link>
-        </p>
-      </div>
-    </div>
-  );
-}
 
         <p className="auth-link">
           Already have an account? <Link to="/">Login</Link>
