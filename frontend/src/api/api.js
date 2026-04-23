@@ -24,7 +24,7 @@ const handleResponse = async (response) => {
  */
 export const signupUser = async (name, email, password) => {
   try {
-    const response = await fetch(`${BASE_URL}/signup`, {
+    const response = await fetch(`${BASE_URL}/api/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export const signupUser = async (name, email, password) => {
  */
 export const loginUser = async (email, password) => {
   try {
-    const response = await fetch(`${BASE_URL}/login`, {
+    const response = await fetch(`${BASE_URL}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export const getCurrentUser = async () => {
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(`${BASE_URL}/me`, {
+    const response = await fetch(`${BASE_URL}/api/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -99,7 +99,7 @@ export const getTasks = async () => {
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(`${BASE_URL}/tasks`, {
+    const response = await fetch(`${BASE_URL}/api/tasks`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -122,7 +122,7 @@ export const createTask = async (title, description) => {
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(`${BASE_URL}/tasks`, {
+    const response = await fetch(`${BASE_URL}/api/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -149,7 +149,7 @@ export const updateTask = async (id, title, description, status) => {
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(`${BASE_URL}/tasks/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/tasks/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +176,7 @@ export const deleteTask = async (id) => {
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(`${BASE_URL}/tasks/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/tasks/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
