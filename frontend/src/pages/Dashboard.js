@@ -84,8 +84,12 @@ export default function Dashboard() {
                 <div className="progress-bar-wrapper">
                   <div className="progress-bar">
                     <div 
-                      className="progress-fill"
-                      style={{ width: `${completionRate}%` }}
+                      className="progress-fill completed-fill"
+                      style={{ width: `${total === 0 ? 0 : Math.round((completed / total) * 100)}%` }}
+                    ></div>
+                    <div 
+                      className="progress-fill inprogress-fill"
+                      style={{ width: `${total === 0 ? 0 : Math.round((inProgress / total) * 100)}%` }}
                     ></div>
                   </div>
                   <p className="progress-text">{completionRate}% Complete</p>
@@ -97,12 +101,12 @@ export default function Dashboard() {
                     <span>{completed} completed</span>
                   </div>
                   <div className="progress-item">
-                    <div className="progress-dot pending"></div>
-                    <span>{pending} pending</span>
-                  </div>
-                  <div className="progress-item">
                     <div className="progress-dot inprogress"></div>
                     <span>{inProgress} in progress</span>
+                  </div>
+                  <div className="progress-item">
+                    <div className="progress-dot pending"></div>
+                    <span>{pending} pending</span>
                   </div>
                 </div>
               </div>
