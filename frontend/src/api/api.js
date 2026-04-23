@@ -3,7 +3,7 @@
  * Handles all API requests to the backend with error handling
  */
 
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+const BASE_URL = process.env.REACT_APP_API_URL || "/api";
 
 /**
  * Handle API responses and errors
