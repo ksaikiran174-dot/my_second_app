@@ -12,7 +12,7 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
     DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
     ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-    ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+    ALLOWED_ORIGINS = ["*"]
     
     @classmethod
     def is_production(cls):

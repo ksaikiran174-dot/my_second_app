@@ -3,7 +3,7 @@
  * Handles all API requests to the backend with error handling
  */
 
-const BASE_URL = "https://my-second-app-ka05.onrender.com" || "/api";
+const BASE_URL = process.env.REACT_APP_API_URL || "/api";
 
 /**
  * Handle API responses and errors
